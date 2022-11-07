@@ -17,25 +17,26 @@
 #include <stdlib.h>
 #include <math.h>
 
-double l_rect(double granica_a, double granica_b, unsigned int intervals);
-double r_rect(double granica_a, double granica_b, unsigned int intervals);
-double simps(double granica_a, double granica_b, unsigned int intervals);
-double trapecia(double granica_a, double granica_b, unsigned int intervals);
+double l_rect(double border_a, double border_b, unsigned int intervals);
+double r_rect(double border_a, double border_b, unsigned int intervals);
+double simps(double border_a, double border_b, unsigned int intervals);
+double trapecia(double border_a, double border_b, unsigned int intervals);
 double func(double x);
+int num_set_difference(double border_a, double border_b, int var);
 
-double max_pohibka = 0.00001;
+
 
 int main()
 {
-	double granica_a = 0, granica_b = 1; // obmezhennya Folvarkova
+	double border_a = 0, border_b = 1; // obmezhennya Folvarkova
 	double measurement_error = 0, i1 = 0, i2 = 0;
 	int intervals, var, i;
 	double integral_sum = 0;
 
 	while (1)
 	{
-		printf("\n\tThe left boundary a = %.2lf", granica_a);
-		printf("\n\tThe right boundary b = %.2lf\n", granica_b);
+		printf("\n\tThe left boundary a = %.2lf", border_a);
+		printf("\n\tThe right boundary b = %.2lf\n", border_b);
 
 		//validacia
 		do
@@ -61,38 +62,38 @@ int main()
 		{
 		case 1:
 		{
-			int Npoh = pohibka(granica_a, granica_b, var);
-			double i1 = l_rect(granica_a, granica_b, Npoh);
-			integral_sum = l_rect(granica_a, granica_b, intervals);
+			int N_err = num_set_difference(border_a, border_b, var);
+			double i1 = l_rect(border_a, border_b, N_err);
+			integral_sum = l_rect(border_a, border_b, intervals);
 			printf("\n\n\t*Left Rectangles method*\n");
-			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", granica_a, granica_b, integral_sum, intervals, i1, Npoh);
+			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", border_a, border_b, integral_sum, intervals, i1, N_err);
 		}
 		break;
 		case 2:
 		{
-			int Npoh = pohibka(granica_a, granica_b, var);
-			double i1 = r_rect(granica_a, granica_b, Npoh);
-			integral_sum = r_rect(granica_a, granica_b, intervals);
+			int N_err = num_set_difference(border_a, border_b, var);
+			double i1 = r_rect(border_a, border_b, N_err);
+			integral_sum = r_rect(border_a, border_b, intervals);
 			printf("\n\n\t======*Right Rectangles method*======\n");
-			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", granica_a, granica_b, integral_sum, intervals, i1, Npoh);
+			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", border_a, border_b, integral_sum, intervals, i1, N_err);
 		}
 		break;
 		case 3:
 		{
-			int Npoh = pohibka(granica_a, granica_b, var);
-			double i1 = trapecia(granica_a, granica_b, Npoh);
-			integral_sum = trapecia(granica_a, granica_b, intervals);
+			int N_err = num_set_difference(border_a, border_b, var);
+			double i1 = trapecia(border_a, border_b, N_err);
+			integral_sum = trapecia(border_a, border_b, intervals);
 			printf("\n\n\t======*trapecia method *======\n");
-			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", granica_a, granica_b, integral_sum, intervals, i1, Npoh);
+			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", border_a, border_b, integral_sum, intervals, i1, N_err);
 		}
 		break;
 		case 4:
 		{
-			int Npoh = pohibka(granica_a, granica_b, var);
-			double i1 = simps(granica_a, granica_b, Npoh);
-			integral_sum = simps(granica_a, granica_b, intervals);
+			int N_err = num_set_difference(border_a, border_b, var);
+			double i1 = simps(border_a, border_b, N_err);
+			integral_sum = simps(border_a, border_b, intervals);
 			printf("\n\n\t======*simps's method *======\n");
-			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", granica_a, granica_b, integral_sum, intervals, i1, Npoh);
+			printf("\n\ta = %.2lf \n\tb = %.2lf \n\tIntegral = %.6lf \n\tN = %d \n\ti1 = %.6lf \n\tNpoh = %d", border_a, border_b, integral_sum, intervals, i1, N_err);
 		}
 		break;
 		}
@@ -100,12 +101,12 @@ int main()
 	return 0;
 }
 
-double l_rect(double granica_a, double granica_b, unsigned int intervals)
+double l_rect(double border_a, double border_b, unsigned int intervals)
 {
 	double integral_sum = 0, x = 0, h;
 	unsigned int i;
-	h = (granica_b - granica_a) / intervals;
-	x = granica_a; //x(n=0)
+	h = (border_b - border_a) / intervals;
+	x = border_a; //x(n=0)
 	for (i = 0; i <= (intervals - 1); i++)
 	{
 		integral_sum += func(x);
@@ -113,12 +114,12 @@ double l_rect(double granica_a, double granica_b, unsigned int intervals)
 	}
 	return integral_sum * h;
 }
-double r_rect(double granica_a, double granica_b, unsigned int intervals)
+double r_rect(double border_a, double border_b, unsigned int intervals)
 {
 	double integral_sum = 0, x = 0, h;
 	unsigned int i;
-	h = (granica_b - granica_a) / intervals;
-	x = granica_a + h; //x(n=1)
+	h = (border_b - border_a) / intervals;
+	x = border_a + h; //x(n=1)
 	for (i = 0; i <= intervals; i++)
 	{
 		integral_sum += func(x);
@@ -126,12 +127,12 @@ double r_rect(double granica_a, double granica_b, unsigned int intervals)
 	}
 	return integral_sum * h;
 }
-double trapecia(double granica_a, double granica_b, unsigned int intervals)
+double trapecia(double border_a, double border_b, unsigned int intervals)
 {
 	double integral_sum = 0, x = 0, h;
 	unsigned int i;
-	h = (granica_b - granica_a) / intervals;
-	x = granica_a + h; //x(n=1)
+	h = (border_b - border_a) / intervals;
+	x = border_a + h; //x(n=1)
 	for (i = 0; i <= (intervals - 1); i++)
 	{
 		integral_sum += (func(x) + func(x + h)) / 2;
@@ -139,75 +140,77 @@ double trapecia(double granica_a, double granica_b, unsigned int intervals)
 	}
 	return integral_sum * h;
 }
-double simps(double granica_a, double granica_b, unsigned int intervals)
+double simps(double border_a, double border_b, unsigned int intervals)
 {
 	double integral_sum = 0, sum1 = 0, sum2 = 0, h = 0;
 
-	h = (granica_b - granica_a) / intervals;
+	h = (border_b - border_a) / intervals;
 
 	for (int i = 1; i <= (intervals - 1); i++)
 	{
 		if (i % 2 != 0)
-			sum1 += func(granica_a + h * i);
+			sum1 += func(border_a + h * i);
 		else
-			sum2 += func(granica_a + h * i);
+			sum2 += func(border_a + h * i);
 	}
-	return (func(granica_a) + func(granica_b) + 4 * sum1 + 2 * sum2) * h / 3;
+	return (func(border_a) + func(border_b) + 4 * sum1 + 2 * sum2) * h / 3;
 }
 double func(double x)
 {
 	return pow(x, 3) / (pow(x, 8) + 1);// Folvarkova function
 }
-int pohibka(double granica_a, double granica_b, int var)
+int num_set_difference(double border_a, double border_b, int var)
 {
+	double error = 0.00001;
+
 	switch (var)
 	{
 	case 1:
 	{
-		int Npoh = 0, i1, i2;
+		int N_err = 0, i1, i2;
 		do
 		{
-			Npoh += 2;
-			i1 = l_rect(granica_a, granica_b, Npoh);
-			i2 = l_rect(granica_a, granica_b, Npoh + 2);
-		} while (fabs(i2 - i1) > max_pohibka);
-		return Npoh;
+			N_err += 2;
+			i1 = l_rect(border_a, border_b, N_err);
+			i2 = l_rect(border_a, border_b, N_err + 2);
+		} while (fabs(i2 - i1) > error);
+		return N_err;
 	}
 	break;
 	case 2:
 	{
-		int Npoh = 0, i1, i2;
+		int N_err = 0, i1, i2;
 		do
 		{
-			Npoh += 2;
-			i1 = r_rect(granica_a, granica_b, Npoh);
-			i2 = r_rect(granica_a, granica_b, Npoh + 2);
-		} while (fabs(i2 - i1) > max_pohibka);
-		return Npoh;
+			N_err += 2;
+			i1 = r_rect(border_a, border_b, N_err);
+			i2 = r_rect(border_a, border_b, N_err + 2);
+		} while (fabs(i2 - i1) > error);
+		return N_err;
 	}
 	break;
 	case 3:
 	{
-		int Npoh = 0, i1, i2;
+		int N_err = 0, i1, i2;
 		do
 		{
-			Npoh += 2;
-			i1 = trapecia(granica_a, granica_b, Npoh);
-			i2 = trapecia(granica_a, granica_b, Npoh + 2);
-		} while (fabs(i2 - i1) > max_pohibka);
-		return Npoh;
+			N_err += 2;
+			i1 = trapecia(border_a, border_b, N_err);
+			i2 = trapecia(border_a, border_b, N_err + 2);
+		} while (fabs(i2 - i1) > error);
+		return N_err;
 	}
 	break;
 	case 4:
 	{
-		int Npoh = 0, i1, i2;
+		int N_err = 0, i1, i2;
 		do
 		{
-			Npoh += 2;
-			i1 = simps(granica_a, granica_b, Npoh);
-			i2 = simps(granica_a, granica_b, Npoh + 2);
-		} while (fabs(i2 - i1) > max_pohibka);
-		return Npoh;
+			N_err += 2;
+			i1 = simps(border_a, border_b, N_err);
+			i2 = simps(border_a, border_b, N_err + 2);
+		} while (fabs(i2 - i1) > error);
+		return N_err;
 	}
 	break;
 	}
