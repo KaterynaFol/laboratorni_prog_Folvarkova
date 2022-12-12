@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1669840185 source:d:\Інформатика 2022\lab3\lab3\main.c
-	<stdio.h>
-	<stdlib.h>
-	<math.h>
-	<conio.h>
-	<time.h>
-
