@@ -13,7 +13,7 @@ int **array_multiplycate(int **A, int A_size, int **B, int B_rows, int B_columns
 void array_sorting(int **A, int A_size, int row);
 int array_sum(int **A, int A_size, int **B, int B_rows, int B_columns);
 
-#define variant 25 // Katrusya
+#define variant 25
 
 int main()
 {
