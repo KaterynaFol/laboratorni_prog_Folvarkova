@@ -45,7 +45,7 @@ int main()
 
     if (method == 1)
     {
-        maximum_minimum(A, A_size, &minimum_a, &maximum_a);
+        maximum_minimum(A, A_size, &maximum_a, &minimum_a);
         printf("minimum and maximum number, lower than main diagonal\nmin = %d; maximum = %d\n", minimum_a, maximum_a);
     }
     else if (method == 2)
@@ -93,7 +93,7 @@ void array_fill(int **array, int x_size, int y_size)
 {
     for (int i = 0; i < x_size; i++)
         for (int j = 0; j < y_size; j++)
-            array[i][j] = 5 - i * j;
+            array[i][j] = -10 + i * j;
 }
 
 void array_print(int **array, int x_size, int y_size)
@@ -129,14 +129,14 @@ void maximum_minimum(int **A, int A_size, int *maximum_a, int *minimum_a)
             for (int j = 0; j < i; j++)
             {
                 if (A[i][j] < *minimum_a)
-                    *maximum_a = A[i][j];
-                else if (A[i][j] > *minimum_a)
+                    *minimum_a = A[i][j];
+                else if (A[i][j] > *maximum_a)
                     *maximum_a = A[i][j];
             }
         }
     }
     else
-        printf("WRONG MATRIX");
+        printf("valid matrix");
 }
 
 int **array_transposition(int **B, int B_rows, int B_columns)
@@ -172,7 +172,7 @@ int **array_multiplycate(int **A, int A_size, int **B, int B_rows, int B_columns
     }
     else
     {
-        printf("ne uzgodzheno\n");
+        printf("not agreed\n");
         return 0;
     }
 }
@@ -189,7 +189,7 @@ void array_sorting(int **A, int A_size, int row)
                 minimum_num = A[i][j];
                 minimum_pointer = &A[i][j];
                 for (int ii = i, jj = j; ii < A_size; ii++, jj = 0)
-                    for (jj; jj < A_size; jj++)
+                    for (; jj < A_size; jj++)
                         if (A[ii][jj] < minimum_num)
                         {
                             minimum_num = A[ii][jj];
